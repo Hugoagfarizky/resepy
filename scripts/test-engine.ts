@@ -4,6 +4,7 @@ import { calculateRecipeNutrition } from "../src/lib/nutrition/calculator";
 import { matchRecipesWithPantry } from "../src/lib/pantry/matcher";
 import { aggregateGroceryList, groupGroceryByCategory } from "../src/lib/grocery/aggregator";
 import { findSubstitutions } from "../src/lib/substitutions/database";
+import { KITCHEN_EMERGENCIES } from "../src/data/kitchen-first-aid";
 import { MOCK_RECIPES, INITIAL_PANTRY_ITEMS } from "../src/data/mock-recipes";
 
 let passed = 0;
@@ -77,6 +78,14 @@ assert(Boolean(santanSubs?.[0]?.name.includes("Susu Evaporasi")), "Santan substi
 
 const kemiriSubs = findSubstitutions("Kemiri Sangrai");
 assert(Boolean(kemiriSubs && kemiriSubs.length > 0), "Kemiri should have substitutes");
+
+// 8. Test Kitchen First-Aid Emergency Knowledge Base
+console.log("\n8. Testing Kitchen First-Aid Knowledge Base:");
+assert(KITCHEN_EMERGENCIES.length >= 5, "Kitchen emergencies knowledge base should have at least 5 remedies");
+const asinFix = KITCHEN_EMERGENCIES.find((k) => k.id === "asin");
+assert(Boolean(asinFix?.quickFix.includes("kentang")), "Too salty fix should recommend raw potato absorption");
+const santanFix = KITCHEN_EMERGENCIES.find((k) => k.id === "santan-pecah");
+assert(Boolean(santanFix?.quickFix.includes("maizena")), "Broken santan fix should recommend starch emulsifier");
 
 console.log(`\n========================================`);
 console.log(`Total Tests: ${passed + failed} | Passed: ${passed} | Failed: ${failed}`);

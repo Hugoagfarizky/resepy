@@ -33,3 +33,30 @@ input::placeholder,
 textarea::placeholder {
   color: #737373;
 }
+
+/* Kitchen Print & PDF Optimization */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  header,
+  footer,
+  .no-print,
+  button,
+  .fixed,
+  nav {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  /* Prevent page breaks inside cards */
+  .break-inside-avoid {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}
