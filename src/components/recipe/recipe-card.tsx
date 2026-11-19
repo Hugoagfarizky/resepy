@@ -11,14 +11,14 @@ export function RecipeCard({ recipe }: RecipeCardProps) {
   const totalTime = recipe.prepTimeMinutes + recipe.cookTimeMinutes;
 
   const difficultyColors = {
-    EASY: "bg-emerald-50 text-emerald-700 border-emerald-200",
-    MEDIUM: "bg-amber-50 text-amber-700 border-amber-200",
-    HARD: "bg-rose-50 text-rose-700 border-rose-200",
-    EXPERT: "bg-purple-50 text-purple-700 border-purple-200",
+    EASY: "bg-neutral-950/85 text-emerald-400 border-emerald-500/40",
+    MEDIUM: "bg-neutral-950/85 text-amber-400 border-amber-500/40",
+    HARD: "bg-neutral-950/85 text-rose-400 border-rose-500/40",
+    EXPERT: "bg-neutral-950/85 text-purple-400 border-purple-500/40",
   };
 
   return (
-    <div className="group bg-white rounded-3xl border border-neutral-200/80 shadow-xs hover:shadow-xl hover:border-orange-200 transition-all duration-300 overflow-hidden flex flex-col">
+    <div className="group bg-white rounded-3xl border border-neutral-200/90 shadow-xs hover:shadow-xl hover:border-orange-200 transition-all duration-300 overflow-hidden flex flex-col">
       {/* Cover Image & Badges */}
       <div className="relative aspect-16/10 w-full overflow-hidden bg-neutral-100">
         <Image
@@ -29,18 +29,18 @@ export function RecipeCard({ recipe }: RecipeCardProps) {
           className="object-cover group-hover:scale-105 transition-transform duration-500"
         />
 
-        {/* Top Badges */}
+        {/* Top Badges with High Contrast */}
         <div className="absolute top-3 left-3 right-3 flex items-center justify-between pointer-events-none">
           <div className="flex flex-wrap gap-1.5">
             {recipe.originRegion && (
-              <span className="text-[11px] font-bold px-2.5 py-1 rounded-full bg-neutral-900/80 text-white backdrop-blur-md shadow-xs">
+              <span className="text-[11px] font-bold px-2.5 py-1 rounded-full bg-neutral-950/90 text-white backdrop-blur-md shadow-xs border border-white/20">
                 {recipe.originRegion.split(",")[0]}
               </span>
             )}
             {recipe.dietaryTags.slice(0, 1).map((tag) => (
               <span
                 key={tag}
-                className="text-[11px] font-bold px-2 py-1 rounded-full bg-emerald-600/90 text-white backdrop-blur-md"
+                className="text-[11px] font-bold px-2.5 py-1 rounded-full bg-emerald-700 text-white shadow-xs"
               >
                 {tag}
               </span>
@@ -48,7 +48,7 @@ export function RecipeCard({ recipe }: RecipeCardProps) {
           </div>
 
           <span
-            className={`text-[11px] font-black px-2.5 py-0.5 rounded-full border shadow-xs backdrop-blur-md ${
+            className={`text-[11px] font-black px-2.5 py-1 rounded-full border shadow-xs backdrop-blur-md ${
               difficultyColors[recipe.difficulty]
             }`}
           >
@@ -70,16 +70,16 @@ export function RecipeCard({ recipe }: RecipeCardProps) {
       <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
         <div>
           {/* Author & Rating */}
-          <div className="flex items-center justify-between text-xs text-neutral-500 mb-2">
-            <span className="flex items-center gap-1.5 font-medium text-neutral-700">
+          <div className="flex items-center justify-between text-xs text-neutral-600 mb-2">
+            <span className="flex items-center gap-1.5 font-bold text-neutral-800">
               <ChefHat className="w-3.5 h-3.5 text-orange-600" />
               {recipe.authorName}
             </span>
 
-            <div className="flex items-center gap-1 font-bold text-neutral-800">
-              <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+            <div className="flex items-center gap-1 font-extrabold text-neutral-900">
+              <Star className="w-3.5 h-3.5 fill-amber-500 text-amber-500" />
               <span>{recipe.rating}</span>
-              <span className="text-neutral-400 font-normal">({recipe.ratingCount})</span>
+              <span className="text-neutral-500 font-medium">({recipe.ratingCount})</span>
             </div>
           </div>
 
@@ -90,24 +90,24 @@ export function RecipeCard({ recipe }: RecipeCardProps) {
             </h3>
           </Link>
 
-          <p className="text-xs text-neutral-500 line-clamp-2 mt-1.5 leading-relaxed">
+          <p className="text-xs text-neutral-600 line-clamp-2 mt-1.5 leading-relaxed font-normal">
             {recipe.description}
           </p>
         </div>
 
         {/* Meta Stats Bar */}
-        <div className="pt-3 border-t border-neutral-100 flex items-center justify-between text-xs text-neutral-600 font-medium">
+        <div className="pt-3 border-t border-neutral-100 flex items-center justify-between text-xs text-neutral-700 font-semibold">
           <div className="flex items-center gap-1.5">
-            <Clock className="w-3.5 h-3.5 text-neutral-400" />
+            <Clock className="w-3.5 h-3.5 text-orange-600" />
             <span>{totalTime} menit</span>
           </div>
 
           <div className="flex items-center gap-1.5">
-            <Users className="w-3.5 h-3.5 text-neutral-400" />
+            <Users className="w-3.5 h-3.5 text-orange-600" />
             <span>{recipe.defaultServings} porsi</span>
           </div>
 
-          <span className="text-xs font-bold text-orange-600 group-hover:underline">
+          <span className="text-xs font-black text-orange-600 group-hover:underline">
             Lihat Resep →
           </span>
         </div>

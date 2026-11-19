@@ -57,14 +57,14 @@ export function ExploreClient() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-neutral-200">
         <div>
-          <div className="flex items-center gap-2 text-orange-600 text-xs font-bold uppercase tracking-wider mb-1">
-            <Compass className="w-4 h-4" />
+          <div className="flex items-center gap-2 text-orange-600 text-xs font-black uppercase tracking-wider mb-1">
+            <Compass className="w-4 h-4 text-orange-600" />
             <span>Katalog Kuliner</span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-black text-neutral-900 tracking-tight">
             Eksplorasi Resep Pilihan
           </h1>
-          <p className="text-sm sm:text-base text-neutral-600 mt-1">
+          <p className="text-sm sm:text-base text-neutral-700 mt-1 font-normal">
             Temukan inspirasi masakan nusantara dan internasional dengan filter diet, tingkat
             kesulitan, dan durasi memasak.
           </p>
@@ -72,23 +72,23 @@ export function ExploreClient() {
       </div>
 
       {/* Search & Filter Bar */}
-      <div className="bg-white rounded-3xl p-5 border border-neutral-200/90 shadow-xs space-y-4">
+      <div className="bg-white rounded-3xl p-5 sm:p-6 border border-neutral-200/90 shadow-xs space-y-4">
         {/* Search Input */}
         <div className="relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-500" />
           <input
             type="text"
             placeholder="Cari berdasarkan nama hidangan, bumbu, atau bahan (misal: santan, ayam, katsu)..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-12 pr-4 py-3 rounded-2xl border border-neutral-200 focus:outline-hidden focus:border-orange-500 text-sm font-medium bg-neutral-50/70 focus:bg-white transition-colors"
+            className="w-full pl-12 pr-4 py-3.5 rounded-2xl border border-neutral-300 focus:outline-hidden focus:border-orange-500 text-sm font-semibold text-neutral-900 bg-white placeholder:text-neutral-500 transition-colors"
           />
         </div>
 
         {/* Filter Pills */}
-        <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-neutral-100 text-xs">
-          <div className="flex flex-wrap items-center gap-2">
-            <div className="flex items-center gap-1.5 text-neutral-500 font-bold mr-1">
+        <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-neutral-100 text-xs">
+          <div className="flex flex-wrap items-center gap-2.5">
+            <div className="flex items-center gap-1.5 text-neutral-800 font-extrabold mr-1">
               <SlidersHorizontal className="w-3.5 h-3.5 text-orange-600" />
               <span>Filter:</span>
             </div>
@@ -97,7 +97,7 @@ export function ExploreClient() {
             <select
               value={selectedDiet}
               onChange={(e) => setSelectedDiet(e.target.value)}
-              className="px-3 py-1.5 rounded-xl border border-neutral-200 bg-white font-semibold text-neutral-700"
+              className="px-3.5 py-2 rounded-xl border border-neutral-300 bg-white font-bold text-neutral-900 focus:border-orange-500"
             >
               <option value="ALL">Semua Diet</option>
               <option value="HALAL">Halal</option>
@@ -110,7 +110,7 @@ export function ExploreClient() {
             <select
               value={selectedDifficulty}
               onChange={(e) => setSelectedDifficulty(e.target.value)}
-              className="px-3 py-1.5 rounded-xl border border-neutral-200 bg-white font-semibold text-neutral-700"
+              className="px-3.5 py-2 rounded-xl border border-neutral-300 bg-white font-bold text-neutral-900 focus:border-orange-500"
             >
               <option value="ALL">Semua Kesulitan</option>
               <option value="EASY">Mudah (Easy)</option>
@@ -119,12 +119,14 @@ export function ExploreClient() {
             </select>
 
             {/* Time Filter Buttons */}
-            <div className="flex items-center gap-1 bg-neutral-100 p-1 rounded-xl">
+            <div className="flex items-center gap-1 bg-neutral-200/70 p-1 rounded-xl">
               <button
                 type="button"
                 onClick={() => setMaxMinutes(0)}
-                className={`px-2.5 py-1 rounded-lg font-bold transition-all ${
-                  maxMinutes === 0 ? "bg-white text-orange-700 shadow-xs" : "text-neutral-600"
+                className={`px-3 py-1.5 rounded-lg text-xs font-black transition-all ${
+                  maxMinutes === 0
+                    ? "bg-orange-600 text-white shadow-xs"
+                    : "text-neutral-700 hover:text-neutral-950"
                 }`}
               >
                 Semua Waktu
@@ -132,8 +134,10 @@ export function ExploreClient() {
               <button
                 type="button"
                 onClick={() => setMaxMinutes(30)}
-                className={`px-2.5 py-1 rounded-lg font-bold transition-all ${
-                  maxMinutes === 30 ? "bg-white text-orange-700 shadow-xs" : "text-neutral-600"
+                className={`px-3 py-1.5 rounded-lg text-xs font-black transition-all ${
+                  maxMinutes === 30
+                    ? "bg-orange-600 text-white shadow-xs"
+                    : "text-neutral-700 hover:text-neutral-950"
                 }`}
               >
                 &le; 30 Menit
@@ -141,8 +145,10 @@ export function ExploreClient() {
               <button
                 type="button"
                 onClick={() => setMaxMinutes(60)}
-                className={`px-2.5 py-1 rounded-lg font-bold transition-all ${
-                  maxMinutes === 60 ? "bg-white text-orange-700 shadow-xs" : "text-neutral-600"
+                className={`px-3 py-1.5 rounded-lg text-xs font-black transition-all ${
+                  maxMinutes === 60
+                    ? "bg-orange-600 text-white shadow-xs"
+                    : "text-neutral-700 hover:text-neutral-950"
                 }`}
               >
                 &le; 60 Menit
@@ -154,7 +160,7 @@ export function ExploreClient() {
             <button
               type="button"
               onClick={clearFilters}
-              className="text-orange-600 hover:text-orange-700 font-bold flex items-center gap-1"
+              className="text-orange-600 hover:text-orange-700 font-extrabold flex items-center gap-1 py-1"
             >
               <X className="w-3.5 h-3.5" />
               <span>Reset Filter</span>
@@ -165,14 +171,14 @@ export function ExploreClient() {
 
       {/* Results Count & Grid */}
       <div className="space-y-6">
-        <div className="flex items-center justify-between text-xs text-neutral-500 font-medium">
+        <div className="flex items-center justify-between text-xs text-neutral-700 font-bold">
           <span>Menampilkan {filteredRecipes.length} resep ditemukan</span>
         </div>
 
         {filteredRecipes.length === 0 ? (
-          <div className="p-12 text-center rounded-3xl bg-neutral-50 border border-neutral-200 space-y-2">
-            <p className="text-neutral-600 font-bold">Tidak ada resep yang cocok dengan kriteria filter.</p>
-            <p className="text-xs text-neutral-400">Coba ubah kata kunci pencarian atau reset filter.</p>
+          <div className="p-12 text-center rounded-3xl bg-white border border-neutral-200 space-y-2">
+            <p className="text-neutral-800 font-black text-base">Tidak ada resep yang cocok dengan kriteria filter.</p>
+            <p className="text-xs text-neutral-600 font-medium">Coba ubah kata kunci pencarian atau reset filter.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

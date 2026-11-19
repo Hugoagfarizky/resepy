@@ -90,14 +90,14 @@ export function PantryClient() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-neutral-200">
         <div>
-          <div className="flex items-center gap-2 text-orange-600 text-xs font-bold uppercase tracking-wider mb-1">
-            <Refrigerator className="w-4 h-4" />
+          <div className="flex items-center gap-2 text-orange-600 text-xs font-black uppercase tracking-wider mb-1">
+            <Refrigerator className="w-4 h-4 text-orange-600" />
             <span>Pantry & Kulkas Pintar</span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-black text-neutral-900 tracking-tight">
             Masak dari Apa yang Ada di Kulkas
           </h1>
-          <p className="text-sm sm:text-base text-neutral-600 mt-1">
+          <p className="text-sm sm:text-base text-neutral-700 mt-1 font-normal">
             Catat bahan makanan di dapur Anda. Mesin kami akan merekomendasikan resep yang paling
             cocok dan memprioritaskan bahan yang mendekati masa kedaluwarsa.
           </p>
@@ -110,22 +110,22 @@ export function PantryClient() {
           <div className="bg-white rounded-3xl p-6 border border-neutral-200 shadow-xs space-y-6">
             <h2 className="text-base font-extrabold text-neutral-900 flex items-center justify-between">
               <span>Persediaan Bahan ({pantryItems.length})</span>
-              <span className="text-xs font-medium text-neutral-500">Tersimpan otomatis</span>
+              <span className="text-xs font-bold text-neutral-500">Tersimpan otomatis</span>
             </h2>
 
             {/* Quick Add Form */}
-            <form onSubmit={handleAddItem} className="space-y-3 p-4 rounded-2xl bg-neutral-50 border border-neutral-200/80">
-              <span className="text-xs font-bold text-neutral-700 block">
+            <form onSubmit={handleAddItem} className="space-y-3 p-4 rounded-2xl bg-neutral-100/70 border border-neutral-200/90">
+              <span className="text-xs font-black text-neutral-900 block">
                 + Tambah Bahan ke Kulkas
               </span>
 
-              <div className="space-y-2">
+              <div className="space-y-2.5">
                 <input
                   type="text"
                   placeholder="Nama bahan (contoh: Bawang Merah, Daging Ayam)"
                   value={newName}
                   onChange={(e) => setNewName(e.target.value)}
-                  className="w-full px-3.5 py-2 text-sm rounded-xl border border-neutral-300 focus:outline-hidden focus:border-orange-500 bg-white"
+                  className="w-full px-3.5 py-2.5 text-sm font-semibold text-neutral-900 rounded-xl border border-neutral-300 focus:outline-hidden focus:border-orange-500 bg-white placeholder:text-neutral-500"
                   required
                 />
 
@@ -138,13 +138,13 @@ export function PantryClient() {
                       placeholder="Qty"
                       value={newQty}
                       onChange={(e) => setNewQty(e.target.value)}
-                      className="w-20 px-3 py-2 text-sm rounded-xl border border-neutral-300 focus:outline-hidden focus:border-orange-500 bg-white"
+                      className="w-20 px-3 py-2 text-sm font-bold text-neutral-900 rounded-xl border border-neutral-300 focus:outline-hidden focus:border-orange-500 bg-white"
                       required
                     />
                     <select
                       value={newUnit}
                       onChange={(e) => setNewUnit(e.target.value as UnitType)}
-                      className="flex-1 px-2.5 py-2 text-xs rounded-xl border border-neutral-300 focus:outline-hidden focus:border-orange-500 bg-white font-medium"
+                      className="flex-1 px-2.5 py-2 text-xs rounded-xl border border-neutral-300 focus:outline-hidden focus:border-orange-500 bg-white font-bold text-neutral-900"
                     >
                       <option value="BUTIR">Butir</option>
                       <option value="SIUNG">Siung</option>
@@ -163,7 +163,7 @@ export function PantryClient() {
                     type="date"
                     value={newExpiry}
                     onChange={(e) => setNewExpiry(e.target.value)}
-                    className="w-full px-2.5 py-2 text-xs rounded-xl border border-neutral-300 focus:outline-hidden focus:border-orange-500 bg-white"
+                    className="w-full px-2.5 py-2 text-xs font-bold text-neutral-900 rounded-xl border border-neutral-300 focus:outline-hidden focus:border-orange-500 bg-white"
                     title="Tanggal Kedaluwarsa (opsional)"
                   />
                 </div>
@@ -171,9 +171,9 @@ export function PantryClient() {
 
               <button
                 type="submit"
-                className="w-full py-2.5 rounded-xl bg-orange-600 hover:bg-orange-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-xs transition-colors"
+                className="w-full py-2.5 rounded-xl bg-orange-600 hover:bg-orange-500 text-white font-black text-xs flex items-center justify-center gap-1.5 shadow-xs transition-colors"
               >
-                <Plus className="w-4 h-4" />
+                <Plus className="w-4 h-4 stroke-[3]" />
                 <span>Simpan Bahan</span>
               </button>
             </form>
@@ -181,7 +181,7 @@ export function PantryClient() {
             {/* Inventory Items List */}
             <div className="space-y-2 max-h-96 overflow-y-auto pr-1">
               {pantryItems.length === 0 ? (
-                <p className="text-xs text-neutral-400 text-center py-6">
+                <p className="text-xs text-neutral-500 text-center py-6 font-medium">
                   Belum ada bahan di kulkas. Masukkan bahan yang Anda punya di atas!
                 </p>
               ) : (
@@ -194,31 +194,33 @@ export function PantryClient() {
                   return (
                     <div
                       key={item.id}
-                      className={`p-3 rounded-2xl border flex items-center justify-between gap-3 transition-colors ${
+                      className={`p-3.5 rounded-2xl border flex items-center justify-between gap-3 transition-colors ${
                         isExpiringSoon
-                          ? "bg-amber-50/70 border-amber-300"
-                          : "bg-white border-neutral-200"
+                          ? "bg-amber-50/90 border-amber-300 ring-1 ring-amber-300/60"
+                          : "bg-white border-neutral-200/90"
                       }`}
                     >
                       <div>
-                        <div className="flex items-center gap-1.5">
-                          <span className="text-sm font-bold text-neutral-900">{item.name}</span>
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm font-extrabold text-neutral-900">{item.name}</span>
                           {isExpiringSoon && (
-                            <span className="flex items-center gap-1 text-[10px] font-bold text-amber-700 bg-amber-100 px-1.5 py-0.2 rounded-md">
+                            <span className="flex items-center gap-1 text-[10px] font-black text-white bg-amber-600 px-2 py-0.5 rounded-md shadow-2xs">
                               <AlertTriangle className="w-3 h-3" /> Segera Pakai
                             </span>
                           )}
                         </div>
-                        <span className="text-xs font-mono text-neutral-500">
+                        <span className="text-xs font-mono font-bold text-neutral-700">
                           {formatQuantity(item.quantity)} {getUnitDisplayLabel(item.unit)}
-                          {item.expiryDate && ` • Exp: ${item.expiryDate}`}
+                          {item.expiryDate && (
+                            <span className="text-neutral-500 font-sans font-medium"> • Exp: {item.expiryDate}</span>
+                          )}
                         </span>
                       </div>
 
                       <button
                         type="button"
                         onClick={() => handleDeleteItem(item.id)}
-                        className="text-neutral-400 hover:text-rose-600 p-1.5 rounded-lg hover:bg-neutral-100 transition-colors"
+                        className="text-neutral-500 hover:text-rose-600 p-1.5 rounded-lg hover:bg-neutral-100 transition-colors"
                         title="Hapus"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -235,12 +237,12 @@ export function PantryClient() {
         <div className="lg:col-span-7 space-y-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Sparkles className="w-5 h-5 text-orange-500" />
-              <h2 className="text-xl font-extrabold text-neutral-900 tracking-tight">
+              <Sparkles className="w-5 h-5 text-orange-600" />
+              <h2 className="text-xl font-black text-neutral-900 tracking-tight">
                 Resep yang Bisa Dimasak Sekarang
               </h2>
             </div>
-            <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-orange-100 text-orange-800">
+            <span className="text-xs font-black px-3 py-1 rounded-full bg-orange-100 text-orange-900 border border-orange-200">
               Diurutkan dari % kecocokan tertinggi
             </span>
           </div>
@@ -254,33 +256,33 @@ export function PantryClient() {
                   key={recipe.id}
                   className={`p-6 rounded-3xl border transition-all ${
                     isHighMatch
-                      ? "bg-white border-emerald-300 shadow-md ring-1 ring-emerald-200/50"
+                      ? "bg-white border-emerald-400 shadow-md ring-1 ring-emerald-300/60"
                       : "bg-white border-neutral-200 hover:border-orange-200"
                   }`}
                 >
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                    <div className="space-y-1.5">
+                    <div className="space-y-2">
                       <div className="flex flex-wrap items-center gap-2">
-                        {/* Match Percentage Badge */}
+                        {/* High Contrast Match Percentage Badge */}
                         <span
-                          className={`text-xs font-black px-2.5 py-0.5 rounded-full ${
+                          className={`text-xs font-black px-3 py-1 rounded-full ${
                             matchPercentage >= 70
-                              ? "bg-emerald-100 text-emerald-800"
+                              ? "bg-emerald-700 text-white shadow-xs"
                               : matchPercentage >= 40
-                              ? "bg-amber-100 text-amber-800"
-                              : "bg-neutral-100 text-neutral-700"
+                              ? "bg-amber-600 text-white shadow-xs"
+                              : "bg-neutral-800 text-white"
                           }`}
                         >
                           {matchPercentage}% Bahan Tersedia
                         </span>
 
                         {hasExpiringIngredient && (
-                          <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-amber-500 text-white flex items-center gap-1">
-                            <AlertTriangle className="w-3 h-3" /> Memanfaatkan Bahan Mau Habis
+                          <span className="text-[11px] font-black px-2.5 py-1 rounded-full bg-amber-500 text-neutral-950 flex items-center gap-1 shadow-2xs">
+                            <AlertTriangle className="w-3.5 h-3.5" /> Pakai Bahan Hampir Exp
                           </span>
                         )}
 
-                        <span className="text-xs text-neutral-400">
+                        <span className="text-xs text-neutral-600 font-bold">
                           ({availableCount} dari {totalRequiredCount} bahan)
                         </span>
                       </div>
@@ -291,14 +293,14 @@ export function PantryClient() {
                         </h3>
                       </Link>
 
-                      <p className="text-xs text-neutral-500 line-clamp-1">
+                      <p className="text-xs text-neutral-600 line-clamp-2 leading-relaxed">
                         {recipe.description}
                       </p>
                     </div>
 
                     <Link
                       href={`/recipes/${recipe.slug}`}
-                      className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-orange-600 hover:bg-orange-500 text-white font-bold text-xs shadow-xs transition-colors shrink-0"
+                      className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-orange-600 hover:bg-orange-500 text-white font-black text-xs shadow-xs transition-colors shrink-0"
                     >
                       <span>Lihat Resep</span>
                       <ArrowRight className="w-4 h-4" />
@@ -308,17 +310,17 @@ export function PantryClient() {
                   {/* Missing ingredients tag breakdown */}
                   {missingIngredients.length > 0 && (
                     <div className="mt-4 pt-3 border-t border-neutral-100 flex flex-wrap items-center gap-2 text-xs">
-                      <span className="text-neutral-500 font-medium">Perlu beli tambahan:</span>
+                      <span className="text-neutral-700 font-bold">Perlu beli tambahan:</span>
                       {missingIngredients.slice(0, 4).map((m) => (
                         <span
                           key={m}
-                          className="px-2 py-0.5 rounded-md bg-neutral-100 text-neutral-700 font-medium"
+                          className="px-2.5 py-1 rounded-md bg-neutral-100 text-neutral-900 border border-neutral-300 font-bold"
                         >
                           + {m}
                         </span>
                       ))}
                       {missingIngredients.length > 4 && (
-                        <span className="text-neutral-400">
+                        <span className="text-neutral-600 font-bold">
                           +{missingIngredients.length - 4} lainnya
                         </span>
                       )}

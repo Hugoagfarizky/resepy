@@ -110,14 +110,14 @@ export function PlannerClient() {
       {/* Header & Export CTA */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-neutral-200">
         <div>
-          <div className="flex items-center gap-2 text-orange-600 text-xs font-bold uppercase tracking-wider mb-1">
-            <CalendarDays className="w-4 h-4" />
+          <div className="flex items-center gap-2 text-orange-600 text-xs font-black uppercase tracking-wider mb-1">
+            <CalendarDays className="w-4 h-4 text-orange-600" />
             <span>Weekly Meal Planning</span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-black text-neutral-900 tracking-tight">
             Perencana Menu Mingguan
           </h1>
-          <p className="text-sm sm:text-base text-neutral-600 mt-1">
+          <p className="text-sm sm:text-base text-neutral-700 mt-1 font-normal">
             Atur jadwal menu harian untuk Anda dan keluarga. Hemat waktu berbelanja dengan fitur
             ekspor otomatis ke daftar belanja.
           </p>
@@ -126,13 +126,13 @@ export function PlannerClient() {
         <button
           type="button"
           onClick={handleExportToGrocery}
-          className={`flex items-center gap-2 px-6 py-3.5 rounded-2xl font-bold text-sm shadow-md transition-all ${
+          className={`flex items-center gap-2 px-6 py-3.5 rounded-2xl font-black text-sm shadow-md transition-all ${
             exportedSuccess
               ? "bg-emerald-600 text-white"
-              : "bg-orange-600 hover:bg-orange-500 text-white hover:scale-105 active:scale-95"
+              : "bg-orange-600 hover:bg-orange-500 text-white hover:scale-105 active:scale-95 shadow-orange-600/30"
           }`}
         >
-          {exportedSuccess ? <Check className="w-5 h-5" /> : <ShoppingCart className="w-5 h-5" />}
+          {exportedSuccess ? <Check className="w-5 h-5 stroke-[3]" /> : <ShoppingCart className="w-5 h-5" />}
           <span>
             {exportedSuccess
               ? "Bahan Berhasil Diekspor!"
@@ -153,13 +153,13 @@ export function PlannerClient() {
               <span>Jadwalkan Menu Baru</span>
             </h2>
 
-            <div className="space-y-3 text-sm">
+            <div className="space-y-3.5 text-sm">
               <div>
-                <label className="block text-xs font-bold text-neutral-700 mb-1">Pilih Resep</label>
+                <label className="block text-xs font-bold text-neutral-800 mb-1">Pilih Resep</label>
                 <select
                   value={selectedRecipeSlug}
                   onChange={(e) => setSelectedRecipeSlug(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-300 focus:outline-hidden focus:border-orange-500 bg-white font-medium"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-300 focus:outline-hidden focus:border-orange-500 bg-white font-bold text-neutral-900 text-sm"
                 >
                   {MOCK_RECIPES.map((r) => (
                     <option key={r.slug} value={r.slug}>
@@ -171,22 +171,22 @@ export function PlannerClient() {
 
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <label className="block text-xs font-bold text-neutral-700 mb-1">Tanggal</label>
+                  <label className="block text-xs font-bold text-neutral-800 mb-1">Tanggal</label>
                   <input
                     type="date"
                     value={selectedDate}
                     onChange={(e) => setSelectedDate(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl border border-neutral-300 focus:outline-hidden focus:border-orange-500 bg-white text-xs"
+                    className="w-full px-3 py-2 rounded-xl border border-neutral-300 focus:outline-hidden focus:border-orange-500 bg-white text-xs font-bold text-neutral-900"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-neutral-700 mb-1">Waktu Makan</label>
+                  <label className="block text-xs font-bold text-neutral-800 mb-1">Waktu Makan</label>
                   <select
                     value={selectedMealType}
                     onChange={(e) => setSelectedMealType(e.target.value as "BREAKFAST" | "LUNCH" | "DINNER")}
-                    className="w-full px-3 py-2 rounded-xl border border-neutral-300 focus:outline-hidden focus:border-orange-500 bg-white text-xs font-medium"
+                    className="w-full px-3 py-2 rounded-xl border border-neutral-300 focus:outline-hidden focus:border-orange-500 bg-white text-xs font-bold text-neutral-900"
                   >
                     <option value="BREAKFAST">Sarapan</option>
                     <option value="LUNCH">Makan Siang</option>
@@ -196,23 +196,23 @@ export function PlannerClient() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-neutral-700 mb-1">Jumlah Porsi</label>
+                <label className="block text-xs font-bold text-neutral-800 mb-1">Jumlah Porsi</label>
                 <input
                   type="number"
                   min="1"
                   max="20"
                   value={selectedServings}
                   onChange={(e) => setSelectedServings(parseInt(e.target.value, 10) || 1)}
-                  className="w-full px-3 py-2 rounded-xl border border-neutral-300 focus:outline-hidden focus:border-orange-500 bg-white text-xs font-medium"
+                  className="w-full px-3 py-2 rounded-xl border border-neutral-300 focus:outline-hidden focus:border-orange-500 bg-white text-xs font-bold text-neutral-900"
                   required
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full py-3 rounded-xl bg-neutral-900 hover:bg-orange-600 text-white font-bold text-xs transition-colors flex items-center justify-center gap-1.5 shadow-xs"
+                className="w-full py-3 rounded-xl bg-neutral-900 hover:bg-orange-600 text-white font-black text-xs transition-colors flex items-center justify-center gap-1.5 shadow-xs"
               >
-                <Plus className="w-4 h-4" />
+                <Plus className="w-4 h-4 stroke-[3]" />
                 <span>Tambahkan ke Kalender</span>
               </button>
             </div>
@@ -223,12 +223,12 @@ export function PlannerClient() {
         <div className="lg:col-span-8 space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-black text-neutral-900 tracking-tight flex items-center gap-2">
-              <Sparkles className="w-5 h-5 text-orange-500" />
+              <Sparkles className="w-5 h-5 text-orange-600" />
               <span>Daftar Menu Terjadwal ({mealPlans.length})</span>
             </h2>
             <Link
               href="/grocery"
-              className="text-xs font-bold text-orange-600 hover:underline flex items-center gap-1"
+              className="text-xs font-black text-orange-600 hover:text-orange-700 hover:underline flex items-center gap-1"
             >
               <span>Buka Smart Grocery</span>
               <span>→</span>
@@ -237,8 +237,8 @@ export function PlannerClient() {
 
           <div className="space-y-3">
             {mealPlans.length === 0 ? (
-              <div className="p-12 text-center rounded-3xl bg-neutral-50 border border-neutral-200">
-                <p className="text-neutral-500 text-sm">
+              <div className="p-12 text-center rounded-3xl bg-white border border-neutral-200">
+                <p className="text-neutral-700 font-semibold text-sm">
                   Belum ada resep yang dijadwalkan. Tambahkan resep pertama Anda di samping!
                 </p>
               </div>
@@ -249,7 +249,7 @@ export function PlannerClient() {
                   className="p-4 sm:p-5 rounded-3xl bg-white border border-neutral-200 hover:border-orange-200 shadow-xs flex items-center justify-between gap-4 transition-all"
                 >
                   <div className="flex items-center gap-4">
-                    <div className="relative w-16 h-16 rounded-2xl overflow-hidden bg-neutral-100 shrink-0">
+                    <div className="relative w-16 h-16 rounded-2xl overflow-hidden bg-neutral-100 shrink-0 border border-neutral-200">
                       <Image
                         src={item.recipeCover}
                         alt={item.recipeTitle}
@@ -260,10 +260,10 @@ export function PlannerClient() {
 
                     <div className="space-y-1">
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md bg-orange-100 text-orange-800">
+                        <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md bg-orange-700 text-white shadow-xs">
                           {item.mealType}
                         </span>
-                        <span className="text-xs text-neutral-500 font-medium">
+                        <span className="text-xs text-neutral-700 font-bold">
                           {item.date} • {item.servings} Porsi
                         </span>
                       </div>
@@ -279,7 +279,7 @@ export function PlannerClient() {
                   <div className="flex items-center gap-2">
                     <Link
                       href={`/recipes/${item.recipeSlug}/cook?servings=${item.servings}`}
-                      className="px-3 py-2 rounded-xl bg-orange-50 text-orange-700 hover:bg-orange-600 hover:text-white font-bold text-xs transition-colors hidden sm:inline-flex items-center gap-1"
+                      className="px-3.5 py-2 rounded-xl bg-orange-100 text-orange-950 hover:bg-orange-600 hover:text-white font-black text-xs transition-colors hidden sm:inline-flex items-center gap-1.5 border border-orange-300"
                     >
                       <Utensils className="w-3.5 h-3.5" />
                       <span>Masak</span>
@@ -288,7 +288,7 @@ export function PlannerClient() {
                     <button
                       type="button"
                       onClick={() => handleDeletePlan(item.id)}
-                      className="p-2 rounded-xl text-neutral-400 hover:text-rose-600 hover:bg-neutral-100 transition-colors"
+                      className="p-2 rounded-xl text-neutral-500 hover:text-rose-600 hover:bg-neutral-100 transition-colors"
                       title="Hapus"
                     >
                       <Trash2 className="w-4 h-4" />

@@ -60,7 +60,6 @@ export function StepTimer({ totalSeconds, label }: StepTimerProps) {
 
   const toggleStartPause = () => {
     if (isFinished) {
-      // Reset first if restarting from finished
       setTimeLeft(totalSeconds);
       setIsFinished(false);
       setIsRunning(true);
@@ -83,44 +82,44 @@ export function StepTimer({ totalSeconds, label }: StepTimerProps) {
     <div
       className={`inline-flex items-center gap-3 px-4 py-2 rounded-xl border transition-all ${
         isFinished
-          ? "bg-red-50 border-red-300 text-red-700 animate-pulse"
+          ? "bg-rose-100 border-rose-400 text-rose-950 font-black animate-pulse"
           : isRunning
-          ? "bg-amber-50 border-amber-300 text-amber-900 shadow-xs"
-          : "bg-neutral-50 border-neutral-200 text-neutral-800"
+          ? "bg-amber-100 border-amber-400 text-amber-950 font-black shadow-xs"
+          : "bg-white border-neutral-300 text-neutral-900 shadow-2xs"
       }`}
     >
       <div className="flex items-center gap-2">
-        <Timer className={`w-4 h-4 ${isRunning ? "text-amber-600 animate-spin" : "text-neutral-500"}`} />
-        <span className="text-xs font-semibold text-neutral-600 hidden sm:inline">
+        <Timer className={`w-4 h-4 ${isRunning ? "text-amber-700 animate-spin" : "text-neutral-700"}`} />
+        <span className="text-xs font-bold text-neutral-800 hidden sm:inline">
           {label || "Timer"}:
         </span>
-        <span className="font-mono font-bold text-sm tracking-wider">
+        <span className="font-mono font-black text-sm tracking-wider text-neutral-950">
           {formattedTime}
         </span>
       </div>
 
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-1.5">
         <button
           type="button"
           onClick={toggleStartPause}
           aria-label={isRunning ? "Jeda timer" : "Mulai timer"}
-          className={`px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition-all ${
+          className={`px-3 py-1 rounded-lg text-xs font-black flex items-center gap-1 transition-all ${
             isRunning
-              ? "bg-amber-600 hover:bg-amber-700 text-white"
+              ? "bg-amber-700 hover:bg-amber-800 text-white"
               : isFinished
-              ? "bg-red-600 hover:bg-red-700 text-white"
-              : "bg-neutral-900 hover:bg-orange-600 text-white"
+              ? "bg-rose-700 hover:bg-rose-800 text-white"
+              : "bg-neutral-950 hover:bg-orange-600 text-white"
           }`}
         >
           {isRunning ? (
             <>
-              <Pause className="w-3 h-3" />
+              <Pause className="w-3 h-3 fill-white" />
               <span>Jeda</span>
             </>
           ) : isFinished ? (
             <>
               <Volume2 className="w-3 h-3" />
-              <span>Selesai! Ulangi</span>
+              <span>Ulangi</span>
             </>
           ) : (
             <>
@@ -135,7 +134,7 @@ export function StepTimer({ totalSeconds, label }: StepTimerProps) {
             type="button"
             onClick={resetTimer}
             aria-label="Reset timer"
-            className="p-1 rounded-lg text-neutral-400 hover:text-neutral-700 hover:bg-neutral-200 transition-colors"
+            className="p-1 rounded-lg text-neutral-600 hover:text-neutral-950 hover:bg-neutral-200 transition-colors"
           >
             <RotateCcw className="w-3.5 h-3.5" />
           </button>
