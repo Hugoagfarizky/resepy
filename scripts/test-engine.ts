@@ -3,6 +3,7 @@ import { formatQuantity, getUnitDisplayLabel } from "../src/lib/units/format";
 import { calculateRecipeNutrition } from "../src/lib/nutrition/calculator";
 import { matchRecipesWithPantry } from "../src/lib/pantry/matcher";
 import { aggregateGroceryList, groupGroceryByCategory } from "../src/lib/grocery/aggregator";
+import { findSubstitutions } from "../src/lib/substitutions/database";
 import { MOCK_RECIPES, INITIAL_PANTRY_ITEMS } from "../src/data/mock-recipes";
 
 let passed = 0;
@@ -63,6 +64,19 @@ const groceryItems = aggregateGroceryList([
 assert(groceryItems.length > 0, "Should generate aggregated grocery items");
 const grouped = groupGroceryByCategory(groceryItems);
 assert(Object.keys(grouped).length > 1, "Should group items into multiple supermarket aisles");
+
+// 7. Test Ingredient Substitution Engine
+console.log("\n7. Testing Ingredient Substitution Engine:");
+const asamKandisSubs = findSubstitutions("Asam Kandis");
+assert(Boolean(asamKandisSubs && asamKandisSubs.length > 0), "Asam Kandis should have substitutes");
+assert(Boolean(asamKandisSubs?.[0]?.name.includes("Asam Jawa")), "Asam Kandis substitute should include Asam Jawa");
+
+const santanSubs = findSubstitutions("Santan Kental dari 3 butir kelapa");
+assert(Boolean(santanSubs && santanSubs.length > 0), "Santan Kental should have substitutes");
+assert(Boolean(santanSubs?.[0]?.name.includes("Susu Evaporasi")), "Santan substitute should suggest Susu Evaporasi");
+
+const kemiriSubs = findSubstitutions("Kemiri Sangrai");
+assert(Boolean(kemiriSubs && kemiriSubs.length > 0), "Kemiri should have substitutes");
 
 console.log(`\n========================================`);
 console.log(`Total Tests: ${passed + failed} | Passed: ${passed} | Failed: ${failed}`);

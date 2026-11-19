@@ -8,6 +8,9 @@ import { PortionScaler } from "@/components/recipe/portion-scaler";
 import { IngredientList } from "@/components/recipe/ingredient-list";
 import { NutritionBadge } from "@/components/recipe/nutrition-badge";
 import { StepTimer } from "@/components/recipe/step-timer";
+import { LeftoverGuide } from "@/components/recipe/leftover-guide";
+import { PersonalNotes } from "@/components/recipe/personal-notes";
+import { CostEstimator } from "@/components/recipe/cost-estimator";
 import { calculateRecipeNutrition } from "@/lib/nutrition/calculator";
 import { aggregateGroceryList } from "@/lib/grocery/aggregator";
 import {
@@ -20,7 +23,7 @@ import {
   GitFork,
   Lightbulb,
   Check,
-  Share2,
+  Volume2,
 } from "lucide-react";
 
 interface RecipeDetailViewProps {
@@ -153,15 +156,20 @@ export function RecipeDetailView({ recipe }: RecipeDetailViewProps) {
           className="object-cover"
         />
 
-        {/* High Contrast Overlay CTA: Cooking Mode Button */}
+        {/* High Contrast Overlay CTA: Cooking Mode Button with Audio TTS Callout */}
         <div className="absolute inset-0 bg-linear-to-t from-neutral-950/95 via-neutral-950/50 to-transparent flex items-end p-6 sm:p-8">
           <div className="w-full flex flex-wrap items-center justify-between gap-4">
             <div className="text-white space-y-1">
-              <span className="text-xs uppercase font-black tracking-widest text-orange-300 bg-neutral-900/80 px-2.5 py-0.5 rounded-md inline-block">
-                Siap Memasak di Dapur?
-              </span>
+              <div className="flex items-center gap-2">
+                <span className="text-xs uppercase font-black tracking-widest text-orange-300 bg-neutral-900/80 px-2.5 py-0.5 rounded-md inline-block">
+                  Siap Memasak di Dapur?
+                </span>
+                <span className="text-xs font-bold text-emerald-400 bg-emerald-950/80 border border-emerald-600/60 px-2 py-0.5 rounded-md inline-flex items-center gap-1">
+                  <Volume2 className="w-3.5 h-3.5" /> Audio Voice Reader Siap
+                </span>
+              </div>
               <p className="text-sm sm:text-base font-semibold text-neutral-100">
-                Mode interaktif bebas-genggam dengan layar tetap menyala & audio timer per langkah.
+                Mode interaktif bebas-genggam dengan layar tetap menyala, suara timer, dan pembaca langkah otomatis.
               </p>
             </div>
 
@@ -213,9 +221,9 @@ export function RecipeDetailView({ recipe }: RecipeDetailViewProps) {
         </div>
       </section>
 
-      {/* Main 2-Column Content: Ingredients & Nutrition (Left), Instructions (Right) */}
+      {/* Main 2-Column Content: Ingredients, Cost, Notes (Left), Instructions & Tools (Right) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-        {/* Left Column: Ingredients & Nutrition */}
+        {/* Left Column: Ingredients, Nutrition, Cost Estimator, Leftover Guide, Personal Notes */}
         <div className="lg:col-span-5 space-y-8">
           <IngredientList
             components={recipe.components}
@@ -224,9 +232,23 @@ export function RecipeDetailView({ recipe }: RecipeDetailViewProps) {
           />
 
           <NutritionBadge nutrition={nutrition} servings={servings} />
+
+          <CostEstimator
+            recipeSlug={recipe.slug}
+            currentServings={servings}
+          />
+
+          <LeftoverGuide
+            recipeTitle={recipe.title}
+          />
+
+          <PersonalNotes
+            recipeId={recipe.id}
+            recipeTitle={recipe.title}
+          />
         </div>
 
-        {/* Right Column: Step-by-Step Instructions */}
+        {/* Right Column: Step-by-Step Instructions & Actions */}
         <div className="lg:col-span-7 space-y-6">
           <div className="flex items-center justify-between pb-3 border-b border-neutral-200">
             <h3 className="text-xl font-black text-neutral-900 tracking-tight">

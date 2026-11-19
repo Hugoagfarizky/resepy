@@ -4,7 +4,16 @@ import { useState } from "react";
 import { RecipeComponentGroup } from "@/types/recipe";
 import { scaleQuantity, convertToEstimatedGrams } from "@/lib/units/converter";
 import { formatQuantity, getUnitDisplayLabel } from "@/lib/units/format";
-import { Check, CheckCheck, SlidersHorizontal } from "lucide-react";
+import { findSubstitutions, SubstitutionOption } from "@/lib/substitutions/database";
+import {
+  Check,
+  CheckCheck,
+  SlidersHorizontal,
+  Lightbulb,
+  X,
+  HelpCircle,
+  ArrowRight,
+} from "lucide-react";
 
 interface IngredientListProps {
   components: RecipeComponentGroup[];
@@ -19,6 +28,12 @@ export function IngredientList({
 }: IngredientListProps) {
   const [checkedIds, setCheckedIds] = useState<Set<string>>(new Set());
   const [useMetricOnly, setUseMetricOnly] = useState<boolean>(false);
+  
+  // Substitution Modal State
+  const [activeSubstitute, setActiveSubstitute] = useState<{
+    ingredientName: string;
+    substitutes: SubstitutionOption[];
+  } | null>(null);
 
   const toggleCheck = (id: string) => {
     const next = new Set(checkedIds);
@@ -37,6 +52,17 @@ export function IngredientList({
 
   const uncheckAll = () => {
     setCheckedIds(new Set());
+  };
+
+  const handleOpenSubstitute = (e: React.MouseEvent, ingName: string) => {
+    e.stopPropagation();
+    const subs = findSubstitutions(ingName);
+    if (subs) {
+      setActiveSubstitute({
+        ingredientName: ingName,
+        substitutes: subs,
+      });
+    }
   };
 
   return (
@@ -117,6 +143,8 @@ export function IngredientList({
                   }
                 }
 
+                const availableSubstitutes = findSubstitutions(ing.name);
+
                 return (
                   <li
                     key={ing.id}
@@ -139,13 +167,28 @@ export function IngredientList({
                     {/* Ingredient Detail */}
                     <div className="flex-1 text-sm select-none">
                       <div className="flex items-baseline justify-between gap-2">
-                        <span
-                          className={`font-extrabold ${
-                            isChecked ? "text-neutral-400 line-through" : "text-neutral-900"
-                          }`}
-                        >
-                          {ing.name}
-                        </span>
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span
+                            className={`font-extrabold ${
+                              isChecked ? "text-neutral-400 line-through" : "text-neutral-900"
+                            }`}
+                          >
+                            {ing.name}
+                          </span>
+
+                          {/* Substitution Suggestion Tag if available */}
+                          {availableSubstitutes && !isChecked && (
+                            <button
+                              type="button"
+                              onClick={(e) => handleOpenSubstitute(e, ing.name)}
+                              className="inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-md bg-amber-100 text-amber-900 hover:bg-amber-200 border border-amber-300 transition-colors shadow-2xs"
+                              title="Bahan ini bisa diganti jika stok di rumah habis!"
+                            >
+                              <Lightbulb className="w-3 h-3 text-amber-700 stroke-[2.5]" />
+                              <span>Saran Pengganti</span>
+                            </button>
+                          )}
+                        </div>
 
                         <span
                           className={`font-mono text-sm shrink-0 ${
@@ -173,6 +216,69 @@ export function IngredientList({
           </div>
         ))}
       </div>
+
+      {/* Ingredient Substitution Dialog / Modal */}
+      {activeSubstitute && (
+        <div className="fixed inset-0 z-50 bg-neutral-950/60 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl max-w-lg w-full p-6 space-y-5 border border-neutral-200 shadow-2xl animate-fade-in">
+            <div className="flex items-center justify-between pb-3 border-b border-neutral-200">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-xl bg-amber-100 border border-amber-300 text-amber-800 flex items-center justify-center font-bold">
+                  <Lightbulb className="w-4 h-4 text-amber-700 stroke-[2.5]" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-black text-neutral-900">
+                    Bahan Pengganti Instan
+                  </h4>
+                  <p className="text-xs text-neutral-600 font-medium">
+                    Alternatif untuk: <strong className="text-orange-700">{activeSubstitute.ingredientName}</strong>
+                  </p>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setActiveSubstitute(null)}
+                className="p-1.5 rounded-lg text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="space-y-3">
+              {activeSubstitute.substitutes.map((sub, idx) => (
+                <div
+                  key={idx}
+                  className="p-4 rounded-2xl bg-amber-50/80 border border-amber-200/90 space-y-1.5"
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="font-extrabold text-sm text-neutral-900 flex items-center gap-1.5">
+                      <ArrowRight className="w-3.5 h-3.5 text-orange-600" />
+                      {sub.name}
+                    </span>
+                    <span className="text-[11px] font-mono font-bold text-amber-950 bg-amber-200/80 px-2 py-0.5 rounded-md">
+                      Rasio: {sub.ratio}
+                    </span>
+                  </div>
+                  <p className="text-xs text-neutral-700 leading-relaxed font-normal">
+                    {sub.tasteNote}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <div className="pt-2 text-right">
+              <button
+                type="button"
+                onClick={() => setActiveSubstitute(null)}
+                className="px-5 py-2.5 rounded-xl bg-neutral-900 hover:bg-orange-600 text-white font-bold text-xs transition-colors shadow-xs"
+              >
+                Mengerti, Tutup
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

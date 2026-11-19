@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { RecipeFull } from "@/types/recipe";
 import { StepTimer } from "./step-timer";
@@ -15,6 +15,8 @@ import {
   ListFilter,
   Eye,
   RotateCcw,
+  Volume2,
+  VolumeX,
 } from "lucide-react";
 import { formatQuantity, getUnitDisplayLabel } from "@/lib/units/format";
 
@@ -27,6 +29,7 @@ export function CookingStepper({ recipe, targetServings }: CookingStepperProps) 
   const [currentStepIndex, setCurrentStepIndex] = useState<number>(0);
   const [showIngredientsDrawer, setShowIngredientsDrawer] = useState<boolean>(false);
   const [isCompleted, setIsCompleted] = useState<boolean>(false);
+  const [isSpeaking, setIsSpeaking] = useState<boolean>(false);
 
   const steps = recipe.steps;
   const currentStep = steps[currentStepIndex];
@@ -55,7 +58,51 @@ export function CookingStepper({ recipe, targetServings }: CookingStepperProps) 
     };
   }, []);
 
+  // Stop any active speech synthesis when changing step or unmounting
+  const stopSpeech = () => {
+    if (typeof window !== "undefined" && "speechSynthesis" in window) {
+      window.speechSynthesis.cancel();
+      setIsSpeaking(false);
+    }
+  };
+
+  useEffect(() => {
+    stopSpeech();
+  }, [currentStepIndex]);
+
+  const handleSpeakToggle = () => {
+    if (typeof window === "undefined" || !("speechSynthesis" in window)) {
+      alert("Browser Anda tidak mendukung Text-to-Speech audio.");
+      return;
+    }
+
+    if (isSpeaking) {
+      stopSpeech();
+    } else {
+      window.speechSynthesis.cancel();
+      const textToRead = `Langkah ${currentStepIndex + 1}. ${currentStep.instruction}. ${
+        currentStep.chefTip ? `Tips koki: ${currentStep.chefTip}` : ""
+      }`;
+
+      const utterance = new SpeechSynthesisUtterance(textToRead);
+      utterance.lang = "id-ID";
+      utterance.rate = 0.95; // Sedikit lebih santai agar mudah dipahami saat memasak
+
+      // Cari suara bahasa Indonesia jika tersedia di browser
+      const voices = window.speechSynthesis.getVoices();
+      const idVoice = voices.find((v) => v.lang.startsWith("id") || v.lang.includes("ID"));
+      if (idVoice) utterance.voice = idVoice;
+
+      utterance.onend = () => setIsSpeaking(false);
+      utterance.onerror = () => setIsSpeaking(false);
+
+      setIsSpeaking(true);
+      window.speechSynthesis.speak(utterance);
+    }
+  };
+
   const handleNext = () => {
+    stopSpeech();
     if (currentStepIndex < steps.length - 1) {
       setCurrentStepIndex(currentStepIndex + 1);
     } else {
@@ -73,12 +120,14 @@ export function CookingStepper({ recipe, targetServings }: CookingStepperProps) 
   };
 
   const handlePrev = () => {
+    stopSpeech();
     if (currentStepIndex > 0) {
       setCurrentStepIndex(currentStepIndex - 1);
     }
   };
 
   const handleRestart = () => {
+    stopSpeech();
     setCurrentStepIndex(0);
     setIsCompleted(false);
   };
@@ -105,15 +154,40 @@ export function CookingStepper({ recipe, targetServings }: CookingStepperProps) 
           </div>
         </div>
 
-        {/* Quick Drawer Button to View Ingredients */}
-        <button
-          type="button"
-          onClick={() => setShowIngredientsDrawer(!showIngredientsDrawer)}
-          className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-neutral-800 hover:bg-orange-600 text-white text-xs font-black transition-colors border border-neutral-700"
-        >
-          <ListFilter className="w-4 h-4 text-orange-400" />
-          <span>Lihat Bahan</span>
-        </button>
+        {/* Action Controls: Voice TTS & View Ingredients */}
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={handleSpeakToggle}
+            className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-black transition-all border ${
+              isSpeaking
+                ? "bg-amber-500 text-neutral-950 border-amber-400 animate-pulse"
+                : "bg-neutral-800 hover:bg-neutral-700 text-white border-neutral-700"
+            }`}
+            title="Bacakan instruksi langkah ini dengan suara"
+          >
+            {isSpeaking ? (
+              <>
+                <VolumeX className="w-4 h-4" />
+                <span>Berhenti Baca</span>
+              </>
+            ) : (
+              <>
+                <Volume2 className="w-4 h-4 text-orange-400" />
+                <span className="hidden sm:inline">Bacakan Langkah</span>
+              </>
+            )}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setShowIngredientsDrawer(!showIngredientsDrawer)}
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-neutral-800 hover:bg-orange-600 text-white text-xs font-black transition-colors border border-neutral-700"
+          >
+            <ListFilter className="w-4 h-4 text-orange-400" />
+            <span>Lihat Bahan</span>
+          </button>
+        </div>
       </header>
 
       {/* Progress Bar */}
@@ -124,7 +198,7 @@ export function CookingStepper({ recipe, targetServings }: CookingStepperProps) 
         />
       </div>
 
-      {/* Main Instruction Display (Extra Large Typography for Kitchen Use) */}
+      {/* Main Instruction Display */}
       <main className="flex-1 flex flex-col justify-center max-w-4xl mx-auto w-full px-6 py-10 relative">
         {isCompleted ? (
           /* Finished Celebration State */
@@ -166,11 +240,22 @@ export function CookingStepper({ recipe, targetServings }: CookingStepperProps) 
         ) : (
           /* Current Step Details */
           <div className="space-y-8">
-            {/* Step Counter Tag */}
+            {/* Step Counter Tag & Quick Audio Button */}
             <div className="flex items-center justify-between">
-              <span className="text-xs uppercase font-black tracking-widest text-orange-300 bg-orange-950 border border-orange-600 px-4 py-1.5 rounded-full">
-                Langkah {currentStepIndex + 1} dari {steps.length}
-              </span>
+              <div className="flex items-center gap-3">
+                <span className="text-xs uppercase font-black tracking-widest text-orange-300 bg-orange-950 border border-orange-600 px-4 py-1.5 rounded-full">
+                  Langkah {currentStepIndex + 1} dari {steps.length}
+                </span>
+
+                <button
+                  type="button"
+                  onClick={handleSpeakToggle}
+                  className="text-xs font-bold text-neutral-300 hover:text-orange-400 flex items-center gap-1.5 transition-colors sm:hidden"
+                >
+                  <Volume2 className="w-4 h-4 text-orange-400" />
+                  <span>{isSpeaking ? "Stop" : "Dengar"}</span>
+                </button>
+              </div>
 
               {currentStep.timerSeconds && (
                 <div className="bg-neutral-900 border border-neutral-700 rounded-2xl p-1 shadow-lg">
