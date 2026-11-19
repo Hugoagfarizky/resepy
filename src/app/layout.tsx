@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Suspense } from "react";
 import { Navbar } from "@/components/layout/navbar";
+import { PWAInstallPrompt } from "@/components/layout/pwa-install-prompt";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -19,6 +20,11 @@ export const metadata: Metadata = {
   description:
     "Ekosistem resep masakan modern: porsi dinamis, satuan lokal & metrik, hands-free cooking mode dengan timer, dan kulkas pintar anti food-waste.",
   applicationName: "Luminaire Kitchen",
+  manifest: "/manifest.json",
+  icons: {
+    icon: "/icons/icon.svg",
+    apple: "/icons/icon.svg",
+  },
   keywords: [
     "resep makanan",
     "resep masakan indonesia",
@@ -53,7 +59,9 @@ export default function RootLayout({
         </Suspense>
         <main className="flex-1">{children}</main>
 
-        <footer className="border-t border-neutral-200 bg-white py-12 mt-20">
+        <PWAInstallPrompt />
+
+        <footer className="border-t border-neutral-200 bg-white py-12 mt-20 no-print">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
             <div className="flex items-center justify-center gap-2">
               <div className="w-8 h-8 rounded-xl bg-orange-600 flex items-center justify-center text-white font-black text-xs shadow-xs">

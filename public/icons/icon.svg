@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="luminaireGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="50%" stop-color="#ea580c" />
+      <stop offset="100%" stop-color="#dc2626" />
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="128" fill="url(#luminaireGrad)" />
+  <g fill="none" stroke="#ffffff" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" transform="translate(64, 64)">
+    <!-- Chef Hat / Cloche & Utensils Motif -->
+    <path d="M 64 280 C 64 200, 130 140, 192 140 C 254 140, 320 200, 320 280 Z" fill="#ffffff" fill-opacity="0.15" />
+    <path d="M 40 288 L 344 288" />
+    <path d="M 192 140 C 192 100, 230 70, 270 90 C 310 110, 330 160, 300 200" stroke-width="20" />
+    <circle cx="192" cy="110" r="16" fill="#ffffff" />
+    <path d="M 120 340 L 264 340" stroke-width="20" />
+    <path d="M 150 380 L 234 380" stroke-width="20" />
+  </g>
+</svg>

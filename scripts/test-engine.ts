@@ -5,7 +5,10 @@ import { matchRecipesWithPantry } from "../src/lib/pantry/matcher";
 import { aggregateGroceryList, groupGroceryByCategory } from "../src/lib/grocery/aggregator";
 import { findSubstitutions } from "../src/lib/substitutions/database";
 import { KITCHEN_EMERGENCIES } from "../src/data/kitchen-first-aid";
+import { getApplianceData } from "../src/data/appliance-conversions";
 import { MOCK_RECIPES, INITIAL_PANTRY_ITEMS } from "../src/data/mock-recipes";
+import fs from "fs";
+import path from "path";
 
 let passed = 0;
 let failed = 0;
@@ -86,6 +89,22 @@ const asinFix = KITCHEN_EMERGENCIES.find((k) => k.id === "asin");
 assert(Boolean(asinFix?.quickFix.includes("kentang")), "Too salty fix should recommend raw potato absorption");
 const santanFix = KITCHEN_EMERGENCIES.find((k) => k.id === "santan-pecah");
 assert(Boolean(santanFix?.quickFix.includes("maizena")), "Broken santan fix should recommend starch emulsifier");
+
+// 9. Test Multi-Appliance Converter Engine
+console.log("\n9. Testing Multi-Appliance Converter Engine:");
+const katsuAppliances = getApplianceData("japanese-chicken-katsu-curry");
+assert(katsuAppliances.some((a) => a.appliance === "AIR_FRYER"), "Katsu should support Air Fryer conversion");
+assert(katsuAppliances.some((a) => a.appliance === "OVEN"), "Katsu should support Oven conversion");
+const airFryerKatsu = katsuAppliances.find((a) => a.appliance === "AIR_FRYER");
+assert(Boolean(airFryerKatsu?.recommendedTemp?.includes("185")), "Air fryer katsu temp should be recommended ~185°C");
+
+// 10. Test PWA Manifest Existence
+console.log("\n10. Testing PWA Manifest & App Config:");
+const manifestPath = path.join(process.cwd(), "public", "manifest.json");
+assert(fs.existsSync(manifestPath), "public/manifest.json should exist");
+const manifestContent = JSON.parse(fs.readFileSync(manifestPath, "utf-8"));
+assert(manifestContent.display === "standalone", "PWA display should be standalone");
+assert(manifestContent.theme_color === "#ea580c", "PWA theme color should be #ea580c");
 
 console.log(`\n========================================`);
 console.log(`Total Tests: ${passed + failed} | Passed: ${passed} | Failed: ${failed}`);

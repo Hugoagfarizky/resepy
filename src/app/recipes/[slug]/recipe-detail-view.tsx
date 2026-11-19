@@ -14,6 +14,9 @@ import { CostEstimator } from "@/components/recipe/cost-estimator";
 import { KitchenFirstAid } from "@/components/recipe/kitchen-first-aid";
 import { CooksnapsSection } from "@/components/recipe/cooksnaps-section";
 import { KitchenPrintSheet } from "@/components/recipe/kitchen-print-sheet";
+import { ApplianceConverter } from "@/components/recipe/appliance-converter";
+import { MiseEnPlaceChecklist } from "@/components/recipe/mise-en-place";
+import { ShareCardModal } from "@/components/recipe/share-card-modal";
 import { calculateRecipeNutrition } from "@/lib/nutrition/calculator";
 import { aggregateGroceryList } from "@/lib/grocery/aggregator";
 import {
@@ -197,7 +200,7 @@ export function RecipeDetailView({ recipe }: RecipeDetailViewProps) {
           </div>
         </section>
 
-        {/* Control Bar: Portion Scaler & Utility Actions (Including Print!) */}
+        {/* Control Bar: Portion Scaler & Utility Actions (Print, Share, MealPlan, Grocery) */}
         <section className="flex flex-wrap items-center justify-between gap-4 p-5 rounded-2xl bg-white border border-neutral-200/90 shadow-xs">
           <PortionScaler
             currentServings={servings}
@@ -206,6 +209,11 @@ export function RecipeDetailView({ recipe }: RecipeDetailViewProps) {
           />
 
           <div className="flex flex-wrap items-center gap-2">
+            <ShareCardModal
+              recipe={recipe}
+              servings={servings}
+            />
+
             <button
               type="button"
               onClick={handlePrint}
@@ -213,7 +221,7 @@ export function RecipeDetailView({ recipe }: RecipeDetailViewProps) {
               title="Cetak lembar resep hemat tinta untuk ditempel di pintu kulkas"
             >
               <Printer className="w-4 h-4 text-neutral-700" />
-              <span>Cetak / PDF Dapur</span>
+              <span>Cetak / PDF</span>
             </button>
 
             <button
@@ -243,6 +251,17 @@ export function RecipeDetailView({ recipe }: RecipeDetailViewProps) {
             </button>
           </div>
         </section>
+
+        {/* Mise en Place Pre-Flight Kitchen Checklist (Anti-Gosong) */}
+        <MiseEnPlaceChecklist
+          recipe={recipe}
+          servings={servings}
+        />
+
+        {/* Appliance Converter (Kompor vs Air Fryer vs Oven vs Presto) */}
+        <ApplianceConverter
+          recipeSlug={recipe.slug}
+        />
 
         {/* Kitchen First-Aid Emergency Helper Card */}
         <KitchenFirstAid />
