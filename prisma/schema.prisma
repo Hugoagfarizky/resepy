@@ -1,0 +1,250 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  USER
+  CHEF
+  ADMIN
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+  EXPERT
+}
+
+enum UnitType {
+  // Metrik Baku
+  GRAM
+  KILOGRAM
+  MILLILITER
+  LITER
+  // Imperial Baku
+  OUNCE
+  POUND
+  CUP
+  TABLESPOON
+  TEASPOON
+  // Satuan Kuliner Indonesia & Satuan Natural
+  RUAS
+  SIUNG
+  BUTIR
+  LEMBAR
+  IKAT
+  BATANG
+  POTONG
+  SECUKUPNYA
+  SEJUMPUT
+}
+
+enum DietType {
+  HALAL
+  VEGETARIAN
+  VEGAN
+  GLUTEN_FREE
+  DAIRY_FREE
+  KETO
+  LOW_CARB
+}
+
+enum Allergen {
+  PEANUT
+  TREE_NUT
+  DAIRY
+  EGG
+  GLUTEN
+  SOY
+  SEAFOOD
+  FISH
+  SESAME
+}
+
+enum MealType {
+  BREAKFAST
+  LUNCH
+  DINNER
+  SNACK
+}
+
+model User {
+  id            String       @id @default(cuid())
+  email         String       @unique
+  name          String?
+  image         String?
+  role          Role         @default(USER)
+  allergies     Allergen[]
+  dietaryPref   DietType[]
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  recipes       Recipe[]
+  pantryItems   PantryItem[]
+  mealPlans     MealPlan[]
+  cooksnaps     Cooksnap[]
+  savedRecipes  SavedRecipe[]
+}
+
+model Ingredient {
+  id              String             @id @default(cuid())
+  name            String             @unique
+  category        String             // e.g. "Sayuran", "Bumbu & Rempah", "Daging & Unggas", "Bahan Pokok"
+  defaultUnit     UnitType           @default(GRAM)
+  caloriesPer100g Float?
+  proteinPer100g  Float?
+  fatPer100g      Float?
+  carbsPer100g    Float?
+  fiberPer100g    Float?
+  densityGPerMl   Float?             @default(1.0)
+  allergens       Allergen[]
+
+  recipeIngredients RecipeIngredient[]
+  pantryItems       PantryItem[]
+  substitutionsFrom IngredientSubstitute[] @relation("SubstitutesFrom")
+  substitutionsTo   IngredientSubstitute[] @relation("SubstitutesTo")
+}
+
+model IngredientSubstitute {
+  id             String     @id @default(cuid())
+  ingredientId   String
+  substituteId   String
+  ratio          Float      @default(1.0)
+  notes          String?
+
+  ingredient     Ingredient @relation("SubstitutesFrom", fields: [ingredientId], references: [id])
+  substitute     Ingredient @relation("SubstitutesTo", fields: [substituteId], references: [id])
+}
+
+model Recipe {
+  id              String            @id @default(cuid())
+  title           String
+  slug            String            @unique
+  description     String?
+  coverImage      String?
+  authorId        String
+  defaultServings Int               @default(4)
+  prepTimeMinutes Int
+  cookTimeMinutes Int
+  difficulty      Difficulty        @default(MEDIUM)
+  isPublished     Boolean           @default(true)
+  dietaryTags     DietType[]
+  totalCalories   Float?
+  originRegion    String?
+
+  parentRecipeId  String?
+  parentRecipe    Recipe?           @relation("RecipeForks", fields: [parentRecipeId], references: [id])
+  forks           Recipe[]          @relation("RecipeForks")
+
+  author          User              @relation(fields: [authorId], references: [id])
+  components      RecipeComponent[]
+  steps           RecipeStep[]
+  cooksnaps       Cooksnap[]
+  savedBy         SavedRecipe[]
+  mealPlanItems   MealPlanItem[]
+
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+}
+
+model RecipeComponent {
+  id          String             @id @default(cuid())
+  recipeId    String
+  title       String             // e.g., "Bumbu Halus", "Bahan Marinasi", "Bahan Utama"
+  orderIndex  Int                @default(0)
+
+  recipe      Recipe             @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  ingredients RecipeIngredient[]
+}
+
+model RecipeIngredient {
+  id           String          @id @default(cuid())
+  componentId  String
+  ingredientId String
+  quantity     Float
+  unit         UnitType
+  preparation  String?
+  isOptional   Boolean         @default(false)
+
+  component    RecipeComponent @relation(fields: [componentId], references: [id], onDelete: Cascade)
+  ingredient   Ingredient      @relation(fields: [ingredientId], references: [id])
+}
+
+model RecipeStep {
+  id             String   @id @default(cuid())
+  recipeId       String
+  stepNumber     Int
+  instruction    String
+  timerSeconds   Int?
+  timerLabel     String?
+  imageUrl       String?
+  videoUrl       String?
+  chefTip        String?
+
+  recipe         Recipe   @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+}
+
+model PantryItem {
+  id           String     @id @default(cuid())
+  userId       String
+  ingredientId String
+  quantity     Float
+  unit         UnitType
+  expiryDate   DateTime?
+  notes        String?
+
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
+}
+
+model MealPlan {
+  id          String         @id @default(cuid())
+  userId      String
+  startDate   DateTime
+  endDate     DateTime
+
+  user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items       MealPlanItem[]
+}
+
+model MealPlanItem {
+  id         String    @id @default(cuid())
+  mealPlanId String
+  recipeId   String
+  date       DateTime
+  mealType   MealType
+  servings   Int       @default(2)
+
+  mealPlan   MealPlan  @relation(fields: [mealPlanId], references: [id], onDelete: Cascade)
+  recipe     Recipe    @relation(fields: [recipeId], references: [id])
+}
+
+model Cooksnap {
+  id         String   @id @default(cuid())
+  recipeId   String
+  userId     String
+  imageUrl   String
+  comment    String?
+  rating     Int      @default(5)
+  createdAt  DateTime @default(now())
+
+  recipe     Recipe   @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [userId], references: [id])
+}
+
+model SavedRecipe {
+  id         String   @id @default(cuid())
+  userId     String
+  recipeId   String
+  createdAt  DateTime @default(now())
+
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  recipe     Recipe   @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, recipeId])
+}
