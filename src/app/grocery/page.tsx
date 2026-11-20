@@ -2,7 +2,7 @@ import { GroceryClient } from "./grocery-client";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Daftar Belanja Cerdas (Smart Grocery List) | Luminaire Kitchen",
+  title: "Daftar Belanja Cerdas (Smart Grocery List) | Resepy",
   description:
     "Daftar belanja pintar yang otomatis menggabungkan jumlah bahan dari berbagai resep dan mengelompokkannya per lorong pasar.",
 };

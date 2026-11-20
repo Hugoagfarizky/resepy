@@ -23,7 +23,7 @@ function assert(condition: boolean, message: string) {
   }
 }
 
-console.log("\n🧪 Running Luminaire Kitchen Domain Logic Tests...\n");
+console.log("\n🧪 Running Resepy Domain Logic Tests...\n");
 
 // 1. Test Scale Quantity
 console.log("1. Testing Dynamic Portion Scaler:");

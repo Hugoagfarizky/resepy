@@ -19,11 +19,11 @@ export async function generateMetadata({ params }: CookPageProps): Promise<Metad
   const recipe = MOCK_RECIPES.find((r) => r.slug === slug);
 
   if (!recipe) {
-    return { title: "Mode Memasak - Luminaire Kitchen" };
+    return { title: "Mode Memasak - Resepy" };
   }
 
   return {
-    title: `Memasak: ${recipe.title} (Cooking Mode) | Luminaire Kitchen`,
+    title: `Memasak: ${recipe.title} (Cooking Mode) | Resepy`,
     description: `Panduan memasak layar penuh langkah demi langkah untuk ${recipe.title}`,
   };
 }

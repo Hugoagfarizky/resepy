@@ -1,8 +1,8 @@
-# 🍳 Luminaire Kitchen
+# 🍳 Resepy
 
 > Platform Resep Makanan Interaktif & Smart Pantry Modern berskala penuh (Next.js 16, React 19, TypeScript, Tailwind CSS, Prisma ORM).
 
-![Luminaire Kitchen](https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=80)
+![Resepy](https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=80)
 
 ---
 
@@ -56,4 +56,4 @@ npm run start
 ---
 
 ## 📄 Lisensi
-MIT License © 2026 Luminaire Kitchen.
+MIT License © 2026 Resepy.

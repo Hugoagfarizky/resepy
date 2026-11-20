@@ -19,12 +19,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!recipe) {
     return {
-      title: "Resep Tidak Ditemukan - Luminaire Kitchen",
+      title: "Resep Tidak Ditemukan - Resepy",
     };
   }
 
   return {
-    title: `${recipe.title} - Resep Interaktif | Luminaire Kitchen`,
+    title: `${recipe.title} - Resep Interaktif | Resepy`,
     description: recipe.description,
   };
 }

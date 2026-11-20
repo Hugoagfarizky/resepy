@@ -21,7 +21,7 @@ export function KitchenPrintSheet({ recipe, servings }: KitchenPrintSheetProps) 
           </p>
         </div>
         <div className="text-right text-xs font-mono shrink-0">
-          <p className="font-bold text-sm">LUMINAIRE KITCHEN</p>
+          <p className="font-bold text-sm">RESEPY</p>
           <p>Lembar Masak Dapur</p>
           <p className="font-bold mt-1">Porsi: {servings} Orang</p>
         </div>
@@ -114,7 +114,7 @@ export function KitchenPrintSheet({ recipe, servings }: KitchenPrintSheetProps) 
 
       {/* Footer Print */}
       <div className="mt-8 pt-4 border-t border-neutral-300 text-[10px] text-neutral-500 flex justify-between items-center">
-        <span>Dicetak dari Luminaire Kitchen • Resep oleh {recipe.authorName}</span>
+        <span>Dicetak dari Resepy • Resep oleh {recipe.authorName}</span>
         <span>Tempel di kulkas untuk panduan praktis anti layar kotor!</span>
       </div>
     </div>

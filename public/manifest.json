@@ -1,6 +1,6 @@
 {
-  "name": "Luminaire Kitchen - Platform Resep Interaktif",
-  "short_name": "Luminaire",
+  "name": "Resepy - Platform Resep Interaktif",
+  "short_name": "Resepy",
   "description": "Ekosistem resep masakan modern: porsi dinamis, cooking mode audio timer, dan kulkas pintar.",
   "start_url": ".",
   "display": "standalone",

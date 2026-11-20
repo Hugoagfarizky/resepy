@@ -85,7 +85,7 @@ export function GroceryClient() {
 
   const handleCopyText = () => {
     const grouped = groupGroceryByCategory(items);
-    let text = "🛒 DAFTAR BELANJA KITCHEN LUMINAIRE:\n\n";
+    let text = "🛒 DAFTAR BELANJA RESEPY:\n\n";
 
     Object.entries(grouped).forEach(([cat, catItems]) => {
       text += `📍 ${cat.toUpperCase()}:\n`;

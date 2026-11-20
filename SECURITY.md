@@ -1,11 +1,11 @@
 # Kebijakan Keamanan
 
-Repo ini berisi eksperimen platform resep masakan (Luminaire Kitchen). Aplikasi Next.js dengan Prisma, jadi butuh database PostgreSQL dan kunci rahasia di `.env`.
+Repo ini berisi eksperimen platform resep masakan (Resepy). Aplikasi Next.js dengan Prisma, jadi butuh database PostgreSQL dan kunci rahasia di `.env`.
 
 ## Melaporkan celah
 
 - **Jangan** membuka issue publik untuk masalah keamanan.
-- Kirim email ke **nugrahaagfarizky@gmail.com** dengan subjek `[SECURITY] luminaire`.
+- Kirim email ke **nugrahaagfarizky@gmail.com** dengan subjek `[SECURITY] resepy`.
 - Sertakan langkah reproduksi, dampak, dan saran perbaikan kalau ada.
 
 Balasan diusahakan dalam **7 hari**.

@@ -62,7 +62,7 @@ export function ShareCardModal({ recipe, servings }: ShareCardModalProps) {
     });
 
     text += `\n🌟 _Resep lengkap & panduan audio masak:_ ${currentUrl}\n`;
-    text += `_Dibuat dengan Luminaire Kitchen_`;
+    text += `_Dibuat dengan Resepy_`;
 
     navigator.clipboard.writeText(text);
     setCopiedText(true);
@@ -74,7 +74,7 @@ export function ShareCardModal({ recipe, servings }: ShareCardModalProps) {
       try {
         await navigator.share({
           title: recipe.title,
-          text: `Resep ${recipe.title} di Luminaire Kitchen: ${recipe.description}`,
+          text: `Resep ${recipe.title} di Resepy: ${recipe.description}`,
           url: currentUrl,
         });
       } catch {

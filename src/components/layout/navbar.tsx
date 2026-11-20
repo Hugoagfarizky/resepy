@@ -33,7 +33,7 @@ export function Navbar() {
             </div>
             <div>
               <span className="font-black text-xl tracking-tight text-neutral-900 group-hover:text-orange-600 transition-colors">
-                Luminaire<span className="text-orange-600">Kitchen</span>
+                Rese<span className="text-orange-600">py</span>
               </span>
               <span className="hidden sm:inline-block text-[10px] uppercase font-black tracking-widest text-orange-800 bg-orange-100 px-2 py-0.5 rounded ml-2 border border-orange-300">
                 Culinary Engine

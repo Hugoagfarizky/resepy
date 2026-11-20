@@ -2,7 +2,7 @@ import { StudioClient } from "./studio-client";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Tulis Resep Baru (Creator Studio) | Luminaire Kitchen",
+  title: "Tulis Resep Baru (Creator Studio) | Resepy",
   description: "Buat dan terbitkan resep masakan multi-komponen dengan timer interaktif.",
 };
 

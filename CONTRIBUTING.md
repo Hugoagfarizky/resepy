@@ -1,6 +1,6 @@
 # Panduan Kontribusi
 
-Luminaire Kitchen adalah platform resep interaktif: smart pantry, meal planner, cooking mode hands-free, dan creator studio. Dibangun dengan Next.js 16, React 19, Prisma, dan Tailwind CSS v4.
+Resepy adalah platform resep interaktif: smart pantry, meal planner, cooking mode hands-free, dan creator studio. Dibangun dengan Next.js 16, React 19, Prisma, dan Tailwind CSS v4.
 
 ## Menjalankan
 

@@ -45,7 +45,7 @@ export function PWAInstallPrompt() {
       </div>
 
       <div className="flex-1 text-xs">
-        <p className="font-extrabold text-neutral-100">Pasang Aplikasi Luminaire</p>
+        <p className="font-extrabold text-neutral-100">Pasang Aplikasi Resepy</p>
         <p className="text-neutral-400">Akses cepat di dapur tanpa bar browser.</p>
       </div>
 
