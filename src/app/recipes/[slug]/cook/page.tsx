@@ -1,12 +1,11 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { MOCK_RECIPES } from "@/data/mock-recipes";
-import { CookingStepper } from "@/components/recipe/cooking-stepper";
 import type { Metadata } from "next";
+import { CookingModeShell } from "./cooking-mode-shell";
 
 interface CookPageProps {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<{ servings?: string }>;
 }
 
 export function generateStaticParams() {
@@ -29,30 +28,14 @@ export async function generateMetadata({ params }: CookPageProps): Promise<Metad
   };
 }
 
-async function CookContent({
-  params,
-  searchParams,
-}: {
-  params: Promise<{ slug: string }>;
-  searchParams: Promise<{ servings?: string }>;
-}) {
+export default async function CookingModePage({ params }: CookPageProps) {
   const { slug } = await params;
-  const { servings } = await searchParams;
-
   const recipe = MOCK_RECIPES.find((r) => r.slug === slug);
 
   if (!recipe) {
     notFound();
   }
 
-  const targetServings = servings
-    ? parseInt(servings, 10) || recipe.defaultServings
-    : recipe.defaultServings;
-
-  return <CookingStepper recipe={recipe} targetServings={targetServings} />;
-}
-
-export default function CookingModePage({ params, searchParams }: CookPageProps) {
   return (
     <Suspense
       fallback={
@@ -64,7 +47,7 @@ export default function CookingModePage({ params, searchParams }: CookPageProps)
         </div>
       }
     >
-      <CookContent params={params} searchParams={searchParams} />
+      <CookingModeShell recipe={recipe} />
     </Suspense>
   );
 }

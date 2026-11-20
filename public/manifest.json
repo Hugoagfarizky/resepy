@@ -2,14 +2,14 @@
   "name": "Luminaire Kitchen - Platform Resep Interaktif",
   "short_name": "Luminaire",
   "description": "Ekosistem resep masakan modern: porsi dinamis, cooking mode audio timer, dan kulkas pintar.",
-  "start_url": "/",
+  "start_url": ".",
   "display": "standalone",
   "background_color": "#fafaf9",
   "theme_color": "#ea580c",
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/icons/icon.svg",
+      "src": "icons/icon.svg",
       "sizes": "192x192 512x512",
       "type": "image/svg+xml",
       "purpose": "any maskable"

@@ -15,15 +15,18 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+// Ikut basePath supaya manifest dan ikon tetap ketemu di GitHub Pages (/resepy/).
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
 export const metadata: Metadata = {
   title: "Luminaire Kitchen - Platform Resep Makanan Interaktif & Smart Pantry",
   description:
     "Ekosistem resep masakan modern: porsi dinamis, satuan lokal & metrik, hands-free cooking mode dengan timer, dan kulkas pintar anti food-waste.",
   applicationName: "Luminaire Kitchen",
-  manifest: "/manifest.json",
+  manifest: `${basePath}/manifest.json`,
   icons: {
-    icon: "/icons/icon.svg",
-    apple: "/icons/icon.svg",
+    icon: `${basePath}/icons/icon.svg`,
+    apple: `${basePath}/icons/icon.svg`,
   },
   keywords: [
     "resep makanan",
